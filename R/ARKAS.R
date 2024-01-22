@@ -27,7 +27,7 @@ ARKAS <- function(kallisto_path, kallisto_name, cellRanger_path, organism, lower
     } 
     if (organism == "Mouse")
     {
-        gencode_path <- system.file("extdata", "mm10_gencode.vM27.annotation.gtf", package = "ARKAS")
+        gencode_path <- system.file("extdata", "mm10_vM27.rds", package = "ARKAS")
     }
     gtf <- readRDS(gencode_path)
     gtf$gene_id <- gsub("_","-",gtf$gene_id)

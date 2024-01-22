@@ -1,0 +1,30 @@
+Package: ARKAS
+Title: Ascertaining Relevant lncRNAs from Kallisto Applying ScRNA-seq
+Version: 1.0.0
+Authors@R: person("Enrique", "Goni", email = "egonie@unav.es", role = c("aut", "cre"))
+Description: A computational workflow for uncovering functionally relevant lncRNAs from scRNA-seq data preprocessed by Kallisto.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.0
+URL: https://github.com/kikegoni/ARKAS, https://github.com/kikegoni/manuscript_scRNAseq_lncRNAs
+BugReports: https://github.com/kikegoni/ARKAS/issues
+Imports:
+    BiocManager,
+    Seurat,
+    BUSpaRse,
+    SingleCellExperiment,
+    scater,
+    DropletUtils,
+    scDblFinder,
+    scuttle,
+    scran,
+    igraph,
+    rtracklayer,
+    SummarizedExperiment
+
+
+
+
+

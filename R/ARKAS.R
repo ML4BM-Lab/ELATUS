@@ -46,7 +46,7 @@ ARKAS <- function(kallisto_path, kallisto_name, cellRanger_path, organism, lower
     cellRanger_sce <- qc_metrics(cellRanger, mitochondrial_ens_ids)
 
     #EmptyDrops filtering
-    #for the example given (human PBMCs) the parameters are lower_emptydrops=100 & EmptyDrops_FDR_thres = 0.001
+    #for the example given (human PBMCs) the parameters are lower_emptydrops=1000 & EmptyDrops_FDR_thres = 0.01
     kallisto_filt_sce_ed <- emptydrops_filt(kallisto_sce, lower = lower_emptydrops, EmptyDrops_FDR_thres = EmptyDrops_FDR_thres)
     cellRanger_filt_sce_ed <- emptydrops_filt(cellRanger_sce, lower = lower_emptydrops, EmptyDrops_FDR_thres = EmptyDrops_FDR_thres)
 
@@ -56,10 +56,10 @@ ARKAS <- function(kallisto_path, kallisto_name, cellRanger_path, organism, lower
     cellRanger_filt_sce_ed_nodoubs <- remove_doublets(cellRanger_filt_sce_ed)
     cellRanger_filt_sce_ed_nodoubs <- cellRanger_filt_sce_ed_nodoubs[,cellRanger_filt_sce_ed_nodoubs$isDoublet == F]
 
-    # Filtering (The following thresholds have been used. cells_mito_threshold=15, cells_max_threshold= 50000, cells_max_threshold = 500)cells_mito_threshold, cells_max_threshold, cells_min_genes_detected_threshold
-    kallisto_filt_sce <- Filtering(kallisto_filt_sce_ed_nodoubs,  cells_mito_threshold=15, cells_max_threshold= 50000, cells_min_genes_detected_threshold = 500)
+    # Filtering (The following thresholds have been used. cells_mito_threshold=15, cells_max_threshold= 50000, cells_min_genes_detected_threshold = 500)cells_mito_threshold, cells_max_threshold, cells_min_genes_detected_threshold
+    kallisto_filt_sce <- Filtering(kallisto_filt_sce_ed_nodoubs,  cells_mito_threshold=cells_mito_threshold, cells_max_threshold= 30000, cells_min_genes_detected_threshold = 500)
     kallisto_filt_sce <- scuttle::logNormCounts(kallisto_filt_sce)
-    cellRanger_filt_sce <- Filtering(cellRanger_filt_sce_ed_nodoubs,  cells_mito_threshold=15, cells_max_threshold= 50000, cells_min_genes_detected_threshold = 500)
+    cellRanger_filt_sce <- Filtering(cellRanger_filt_sce_ed_nodoubs,  cells_mito_threshold=cells_mito_threshold, cells_max_threshold= 30000, cells_min_genes_detected_threshold = 500)
     cellRanger_filt_sce <- scuttle::logNormCounts(cellRanger_filt_sce)
 
     # Now get the highly expressed lncRNAs only detected by Kallisto and the ratio of their expression between Kallisto/CellRanger

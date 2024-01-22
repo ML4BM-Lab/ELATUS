@@ -4,10 +4,10 @@
 #' @param kallisto_name Name of the Kallisto raw count matrix (As an example kallisto_name="cells_genes_NO_multimapping")
 #' @param cellRanger_path Path to the CellRanger raw count matrix (As an example :cellRanger_path=system.file("extdata", "cellRanger_example_raw_matrix", package = "ARKAS"))
 #' @param organism Human or Mouse dataset (for the example "Human") 
-#' @param lower_emptydrops A numeric scalar specifying the lower bound on the total UMI count, at or below which all barcodes are assumed to correspond to empty droplets. For the example, 100
-#' @param EmptyDrops_FDR_thres FDR threshold to classifly empty droplets (For the example, 0.001)
+#' @param lower_emptydrops A numeric scalar specifying the lower bound on the total UMI count, at or below which all barcodes are assumed to correspond to empty droplets. For the example, 1000
+#' @param EmptyDrops_FDR_thres FDR threshold to classifly empty droplets (For the example, 0.01)
 #' @param cells_mito_threshold Mitochondrial content (%) threshold. Keep cells with less mitocondrial content than the defined threshold (For the example = 15)
-#' @param cells_max_threshold Keep cells with less counts than the defined threshold (For the example = 50000)
+#' @param cells_max_threshold Keep cells with less counts than the defined threshold (For the example = 30000)
 #' @param cells_min_genes_detected_threshold Keep cells with counts in more genes than the defined threhold (For the example = 500)
 #' @param threshold_minumun_gene_counts Select genes with more than this total counts  (For the paper = 250 counts)
 #' @param threshold_cells_detected Select genes present in at least a number of cells higher than this threshold (For the paper = 25)

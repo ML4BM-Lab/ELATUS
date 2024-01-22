@@ -57,9 +57,9 @@ ARKAS <- function(kallisto_path, kallisto_name, cellRanger_path, organism, lower
     cellRanger_filt_sce_ed_nodoubs <- cellRanger_filt_sce_ed_nodoubs[,cellRanger_filt_sce_ed_nodoubs$isDoublet == F]
 
     # Filtering (The following thresholds have been used. cells_mito_threshold=15, cells_max_threshold= 50000, cells_min_genes_detected_threshold = 500)cells_mito_threshold, cells_max_threshold, cells_min_genes_detected_threshold
-    kallisto_filt_sce <- Filtering(kallisto_filt_sce_ed_nodoubs,  cells_mito_threshold=cells_mito_threshold, cells_max_threshold= 30000, cells_min_genes_detected_threshold = 500)
+    kallisto_filt_sce <- Filtering(kallisto_filt_sce_ed_nodoubs,  cells_mito_threshold=cells_mito_threshold, cells_max_threshold= cells_max_threshold, cells_min_genes_detected_threshold = cells_min_genes_detected_threshold)
     kallisto_filt_sce <- scuttle::logNormCounts(kallisto_filt_sce)
-    cellRanger_filt_sce <- Filtering(cellRanger_filt_sce_ed_nodoubs,  cells_mito_threshold=cells_mito_threshold, cells_max_threshold= 30000, cells_min_genes_detected_threshold = 500)
+    cellRanger_filt_sce <- Filtering(cellRanger_filt_sce_ed_nodoubs,  cells_mito_threshold=cells_mito_threshold, cells_max_threshold= cells_max_threshold, cells_min_genes_detected_threshold = cells_min_genes_detected_threshold)
     cellRanger_filt_sce <- scuttle::logNormCounts(cellRanger_filt_sce)
 
     # Now get the highly expressed lncRNAs only detected by Kallisto and the ratio of their expression between Kallisto/CellRanger

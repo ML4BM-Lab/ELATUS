@@ -1,7 +1,9 @@
 # ELATUS: Elucidating biologically relevant lncRNA annotated transcripts using scRNA-seq
 
 This workflow is designed to, through droplet-based scRNA-seq, not only retain highly-expressed lncRNAs robustly detected by Cell Ranger and Kallisto, but also uncover functionally relevant lncRNAs that are only detected by Kallisto. 
-<img src="https://github.com/kikegoni/ELATUS/assets/35218702/64948f75-3cc0-4b25-9ad1-a619e48bb5c2" width="10">
+
+![Image Alt text](https://github.com/kikegoni/ELATUS/blob/main/inst/extdata/ELATUS_workflow.png?raw=true)
+
 
 ## Installation
 Installation be performed with devtools. Some bioconductor packages will be requiered, and devtools will not automatically install them. Therefore, you will have to install them manually, for example:

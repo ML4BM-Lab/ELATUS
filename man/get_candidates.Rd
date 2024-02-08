@@ -10,7 +10,8 @@ get_candidates(
   threshold_minumun_gene_counts,
   threshold_cells_detected,
   lncrna_names,
-  gtf
+  gtf,
+  exclusive = T
 )
 }
 \arguments{
@@ -25,9 +26,11 @@ get_candidates(
 \item{lncrna_names}{LncRNAs gene names}
 
 \item{gtf}{GTF annotation}
+
+\item{exclusive}{to get the highly-expressed lncRNAs exclusive detected with Kallisto or to get thoso commonly detected by Cell Ranger and Kallisto}
 }
 \value{
-Candidate lncRNAs highly expressed according to Kallisto and not by CellRanger
+Candidate lncRNAs highly expressed
 }
 \description{
 This function gets the highly expressed genes from each SCE and outputs those lncRNAs which are only detected by Kallisto adding more information about them.

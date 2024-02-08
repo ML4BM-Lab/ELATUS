@@ -5,17 +5,25 @@
 #' @param threshold_cells_detected Select genes present in at least a number of cells higher than this threshold 
 #' @param lncrna_names LncRNAs gene names
 #' @param gtf GTF annotation
-#' @return Candidate lncRNAs highly expressed according to Kallisto and not by CellRanger 
+#' @param exclusive to get the highly-expressed lncRNAs exclusive detected with Kallisto or to get thoso commonly detected by Cell Ranger and Kallisto
+#' @return Candidate lncRNAs highly expressed  
 #' @export
-get_candidates <- function(kallisto_sce,cellRanger_sce,threshold_minumun_gene_counts, threshold_cells_detected, lncrna_names, gtf)
+get_candidates <- function(kallisto_sce,cellRanger_sce,threshold_minumun_gene_counts, threshold_cells_detected, lncrna_names, gtf, exclusive = T)
 {
     kallisto_top_genes <- top_genes(kallisto_sce,threshold_minumun_gene_counts,threshold_cells_detected )
     cellRanger_top_genes <- top_genes(cellRanger_sce,threshold_minumun_gene_counts,threshold_cells_detected )
 
     # Uniquely vs common
     input_list <- list(CellRanger = rownames(cellRanger_top_genes), Kallisto = rownames(kallisto_top_genes))
-    candidates_kallisto <- setdiff(input_list[[2]], input_list[[1]])
 
+    if (exclusive == TRUE)
+    {
+        candidates_kallisto <- setdiff(input_list[[2]], input_list[[1]])
+    }
+    else 
+    {
+        candidates_kallisto <- intersect(input_list[[2]], input_list[[1]])
+    }
     candidates_kallisto_lncRNAs <- intersect(candidates_kallisto, lncrna_names)
 
     expression_k <- Matrix::rowSums(SingleCellExperiment::logcounts(kallisto_sce))[candidates_kallisto_lncRNAs]

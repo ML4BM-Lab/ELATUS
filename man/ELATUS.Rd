@@ -44,13 +44,13 @@ ELATUS(
 )
 }
 \arguments{
-\item{kallisto_path}{Path to the Kallisto raw count matrix (As an example: kallisto_path=system.file("extdata", "kallisto_example_raw_matrix", package = "ARKAS"))}
+\item{kallisto_path}{Path to the Kallisto raw count matrix (As an example: kallisto_path=system.file("extdata", "kallisto_example_raw_matrix", package = "ELATUS"))}
 
 \item{kallisto_name}{Name of the Kallisto raw count matrix (As an example kallisto_name="cells_genes_NO_multimapping")}
 
-\item{cellRanger_path}{Path to the CellRanger raw count matrix (As an example :cellRanger_path=system.file("extdata", "cellRanger_example_raw_matrix", package = "ARKAS"))}
+\item{cellRanger_path}{Path to the CellRanger raw count matrix (As an example :cellRanger_path=system.file("extdata", "cellRanger_example_raw_matrix", package = "ELATUS"))}
 
-\item{organism}{Human or Mouse dataset (for the example "Human")}
+\item{organism}{Human or Mouse dataset (for the example "Mouse")}
 
 \item{lower_emptydrops}{A numeric scalar specifying the lower bound on the total UMI count, at or below which all barcodes are assumed to correspond to empty droplets. For the example, 1000}
 
@@ -86,5 +86,5 @@ ELATUS workflow
 This workflow loads the Kallisto and CellRanger raw count matrices, performs emptydrops, then doublet removal, a quality control filtering. Next it gets the highly expressed lncRNAs only detected by Kallisto and the ratio of their expression between Kallisto/CellRanger and finally, after normalization and clustering it calculates the Specificity Index of each of them. The last step is generating the list of biologically relevant lncRNAs.
 
 ELATUS workflow
-This workflow loads the Kallisto and CellRanger raw count matrices, performs emptydrops, then doublet removal, a quality control filtering. Next it gets the highly expressed lncRNAs only detected by Kallisto and the ratio of their expression between Kallisto/CellRanger and finally, after normalization and clustering it calculates the Specificity Index of each of them. The last step is generating the list of biologically relevant lncRNAs.
+This workflow loads the Kallisto and CellRanger raw count matrices, performs emptydrops, then doublet removal, a quality control filtering. Next it gets the highly expressed lncRNAs only detected by Kallisto and the ratio of their expression between Kallisto/CellRanger and finally, after normalization and clustering it calculates the Specificity Index of each of them. The last step is generating the list of biologically relevant lncRNAs. In addition it identifies highly-expressed lncRNAs exclusively detected by Kallisto whose functionality has been proven by external biobliography (CRISPR screenings...) and those highly-expressed lncRNAs robustly detected by both Cell Ranger and Kallisto.
 }

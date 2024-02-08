@@ -1,8 +1,9 @@
 # ELATUS: Elucidating biologically relevant lncRNA annotated transcripts using scRNA-seq
 
 This workflow is designed to, through droplet-based scRNA-seq, not only retain highly-expressed lncRNAs robustly detected by Cell Ranger and Kallisto, but also uncover functionally relevant lncRNAs that are only detected by Kallisto. 
-
+<p align="center">
 <img src='inst/extdata/ELATUS_workflow.png' width="200">
+</p>
 
 
 ## Installation

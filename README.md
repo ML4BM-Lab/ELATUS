@@ -2,7 +2,7 @@
 
 This workflow is designed to, through droplet-based scRNA-seq, not only retain highly-expressed lncRNAs robustly detected by Cell Ranger and Kallisto, but also uncover functionally relevant lncRNAs that are only detected by Kallisto. 
 
-![Image]([https://github.com/kikegoni/ELATUS/blob/main/inst/extdata/ELATUS_workflow.png?raw=true](https://raw.githubusercontent.com/kikegoni/ELATUS/main/inst/extdata/ELATUS_workflow.png)
+![image]([https://github.com/kikegoni/ELATUS/blob/main/inst/extdata/ELATUS_workflow.png?raw=true](https://raw.githubusercontent.com/kikegoni/ELATUS/main/inst/extdata/ELATUS_workflow.png)
 
 
 ## Installation

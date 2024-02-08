@@ -1,4 +1,4 @@
-# ELATUS: Elucidating biologically relevant lncRNA annotated transcripts previously undetected using scRNA-seq
+# ELATUS: Elucidating biologically relevant lncRNA annotated transcripts using scRNA-seq
 
 This workflow is designed to, through droplet-based scRNA-seq, uncover functionally relevant lncRNAs that are only detected by Kallisto and missed by CellRanger. 
 

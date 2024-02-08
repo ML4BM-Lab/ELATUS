@@ -2,8 +2,8 @@
 
 This workflow is designed to, through droplet-based scRNA-seq, not only retain highly-expressed lncRNAs robustly detected by Cell Ranger and Kallisto, but also uncover functionally relevant lncRNAs that are only detected by Kallisto. 
 
-![image](https://raw.githubusercontent.com/kikegoni/ELATUS/main/inst/extdata/ELATUS_workflow.png width=100)
-![image](https://raw.githubusercontent.com/kikegoni/ELATUS/main/inst/extdata/ELATUS_workflow.png width=10)
+![image](https://raw.githubusercontent.com/kikegoni/ELATUS/main/inst/extdata/ELATUS_workflow.png | width=10)
+
 
 ## Installation
 Installation be performed with devtools. Some bioconductor packages will be requiered, and devtools will not automatically install them. Therefore, you will have to install them manually, for example:

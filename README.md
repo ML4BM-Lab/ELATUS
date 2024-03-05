@@ -28,7 +28,7 @@ BiocManager::install("scDblFinder")
 
 # Installation
 Installation is performed with devtools. 
-Installing all the different dependencies takes around 15 minutes in a personal laptop. However, the most rece versions of Seurat and Matrix packages can produce inconsistencies and result in [compilation errors](# https://github.com/satijalab/seurat/issues/7581). This is easilisy solved by removing Matrix and installing a previous release:
+Installing all the different dependencies takes around 15 minutes in a personal laptop. However, the most rece versions of Seurat and Matrix packages can produce inconsistencies and result in [compilation errors](https://github.com/satijalab/seurat/issues/7581). This is easilisy solved by removing Matrix and installing a previous release:
 ```{r}
 remove.packages("Matrix")
 install.packages("https://cran.r-project.org/src/contrib/Archive/Matrix/Matrix_1.5-1.tar.gz")
@@ -53,18 +53,18 @@ For interactive demos of the functions, please check out the vignettes built int
 
 ```
 require(ELATUS)
-vignette('ELATUS')
-vignette('Filtering')
-vignette('SI')
-vignette('biologically_relevant_lncRNAs')
-vignette('crispr_info')
-vignette('emptydrops_filt')
-vignette('get_candidates')
-vignette('import_CellRanger_sc')
-vignette('import_kallisto_sc')
-vignette('qc_metrics')
-vignette('remove_doublets')
-vignette('top_genes')
+?ELATUS
+?Filtering
+?SI
+?biologically_relevant_lncRNAs
+?crispr_info
+?emptydrops_filt
+?get_candidates
+?import_CellRanger_sc
+?import_kallisto_sc
+?qc_metrics
+?remove_doublets
+?top_genes
 ```
 
 # Results

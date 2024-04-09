@@ -34,6 +34,8 @@ ELATUS_filtered <- function(organism, kallisto_sce, cellRanger_sce, gene_names,t
 
     # Now get the highly expressed lncRNAs only detected by Kallisto and the ratio of their expression between Kallisto/CellRanger. Also get the highly-expressedcommonly detected by Cell Ranger and Kallisto
     # uniquifyFeatures
+    kallisto_filt_sce = kallisto_sce
+    cellRanger_filt_sce = cellRanger_sce
     if(gene_names == F)
     {
         gene_name <- gtf$gene_name[match(rownames(kallisto_filt_sce),gtf$gene_id)]

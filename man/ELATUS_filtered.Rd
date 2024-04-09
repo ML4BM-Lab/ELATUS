@@ -3,7 +3,7 @@
 \name{ELATUS_filtered}
 \alias{ELATUS_filtered}
 \title{ELATUS workflow
-This workflow loads the Kallisto and CellRanger raw count matrices, performs emptydrops, then doublet removal, a quality control filtering. Next it gets the highly expressed lncRNAs only detected by Kallisto and the ratio of their expression between Kallisto/CellRanger and finally, after normalization and clustering it calculates the Specificity Index of each of them. The last step is generating the list of biologically relevant lncRNAs. In addition it identifies highly-expressed lncRNAs exclusively detected by Kallisto whose functionality has been proven by external biobliography (CRISPR screenings...) and those highly-expressed lncRNAs robustly detected by both Cell Ranger and Kallisto.}
+ELATUS workflow but working directly with the filtered objects for both Cell Ranger and Kallisto}
 \usage{
 ELATUS_filtered(
   organism,
@@ -44,5 +44,5 @@ A list with most biologically relevant lncRNAs
 }
 \description{
 ELATUS workflow
-This workflow loads the Kallisto and CellRanger raw count matrices, performs emptydrops, then doublet removal, a quality control filtering. Next it gets the highly expressed lncRNAs only detected by Kallisto and the ratio of their expression between Kallisto/CellRanger and finally, after normalization and clustering it calculates the Specificity Index of each of them. The last step is generating the list of biologically relevant lncRNAs. In addition it identifies highly-expressed lncRNAs exclusively detected by Kallisto whose functionality has been proven by external biobliography (CRISPR screenings...) and those highly-expressed lncRNAs robustly detected by both Cell Ranger and Kallisto.
+ELATUS workflow but working directly with the filtered objects for both Cell Ranger and Kallisto
 }

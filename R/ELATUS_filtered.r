@@ -3,6 +3,7 @@
 #' @param organism Human or Mouse dataset (for the example "Mouse") 
 #' @param kallisto_sce Kallisto SingleCellExperiment object
 #' @param cellRanger_path CellRanger SingleCellExperiment object
+#' @param gene_names Are gene names the rownames of the SingleCellExperiment object
 #' @param threshold_minumun_gene_counts Select genes with more than this total counts  (For the paper = 250 counts)
 #' @param threshold_cells_detected Select genes present in at least a number of cells higher than this threshold (For the paper = 25)
 #' @param dimred_clustering dimensionality reduction (For the example "PCA")
@@ -13,7 +14,7 @@
 #' @return A list with most biologically relevant lncRNAs
 
 #' @export
-ELATUS_filtered <- function(organism, kallisto_sce, cellRanger_sce, threshold_minumun_gene_counts, threshold_cells_detected, dimred_clustering, k_neighbors, ratio_threshold, CR_threshold, SI_threshold)
+ELATUS_filtered <- function(organism, kallisto_sce, cellRanger_sce, gene_names,threshold_minumun_gene_counts, threshold_cells_detected, dimred_clustering, k_neighbors, ratio_threshold, CR_threshold, SI_threshold)
 {
     if (organism == "Human")
     {
@@ -33,11 +34,13 @@ ELATUS_filtered <- function(organism, kallisto_sce, cellRanger_sce, threshold_mi
 
     # Now get the highly expressed lncRNAs only detected by Kallisto and the ratio of their expression between Kallisto/CellRanger. Also get the highly-expressedcommonly detected by Cell Ranger and Kallisto
     # uniquifyFeatures
-    gene_name <- gtf$gene_name[match(rownames(kallisto_filt_sce),gtf$gene_id)]
-    rownames(kallisto_filt_sce) <- scuttle::uniquifyFeatureNames(rownames(kallisto_filt_sce), gene_name)
-    gene_name <- gtf$gene_name[match(rownames(cellRanger_filt_sce),gtf$gene_id)]
-    rownames(cellRanger_filt_sce) <- scuttle::uniquifyFeatureNames(rownames(cellRanger_filt_sce), gene_name)
-
+    if(gene_names == F)
+    {
+        gene_name <- gtf$gene_name[match(rownames(kallisto_filt_sce),gtf$gene_id)]
+        rownames(kallisto_filt_sce) <- scuttle::uniquifyFeatureNames(rownames(kallisto_filt_sce), gene_name)
+        gene_name <- gtf$gene_name[match(rownames(cellRanger_filt_sce),gtf$gene_id)]
+        rownames(cellRanger_filt_sce) <- scuttle::uniquifyFeatureNames(rownames(cellRanger_filt_sce), gene_name)
+    }
     # We considered highly expressed lncRNAs as those with at least 250 counts in at least 25 cells
     top_genes(kallisto_filt_sce,threshold_minumun_gene_counts,threshold_cells_detected)
     candidate_lncRNAs_exclusive <- get_candidates(kallisto_filt_sce, cellRanger_filt_sce , threshold_minumun_gene_counts = threshold_minumun_gene_counts, threshold_cells_detected = threshold_cells_detected,lncrna_names = lncrna_names,gtf=gtf)

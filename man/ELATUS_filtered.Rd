@@ -9,6 +9,7 @@ ELATUS_filtered(
   organism,
   kallisto_sce,
   cellRanger_sce,
+  gene_names,
   threshold_minumun_gene_counts,
   threshold_cells_detected,
   dimred_clustering,
@@ -22,6 +23,8 @@ ELATUS_filtered(
 \item{organism}{Human or Mouse dataset (for the example "Mouse")}
 
 \item{kallisto_sce}{Kallisto SingleCellExperiment object}
+
+\item{gene_names}{Are gene names the rownames of the SingleCellExperiment object}
 
 \item{threshold_minumun_gene_counts}{Select genes with more than this total counts  (For the paper = 250 counts)}
 

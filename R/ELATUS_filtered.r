@@ -75,7 +75,10 @@ ELATUS_filtered <- function(organism, kallisto_sce, cellRanger_sce, gene_names,t
     {
         exclusive_lncRNAs_CRISPRi$category = "Exclusive_lncRNA_CRISPRi"
     }
-    exclusive_biologically_relevant_lncRNAs$category = "Exclusive_lncRNA"
+    else
+    {
+        exclusive_biologically_relevant_lncRNAs$category = "Exclusive_lncRNA"
+    }
     candidate_lncRNAs_common$category = "Common_lncRNA"
 
     biologically_relevant_lncRNAs <- rbind(exclusive_biologically_relevant_lncRNAs, candidate_lncRNAs_common,exclusive_lncRNAs_CRISPRi)

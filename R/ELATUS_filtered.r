@@ -50,9 +50,9 @@ ELATUS_filtered <- function(organism, kallisto_sce, cellRanger_sce, gene_names,t
 
     # clustering
     set.seed(100100100)
-    if (k_neighbors != NA)
+    if (is.na(k_neighbors)==FALSE)
     {
-         kallisto_filt_sce <- scater::runPCA(kallisto_filt_sce) 
+        kallisto_filt_sce <- scater::runPCA(kallisto_filt_sce) 
         g <- scran::buildSNNGraph(kallisto_filt_sce, use.dimred = dimred_clustering, k = k_neighbors ) # k is the number of nearest neighbors used to construct the graph. Choose a smaller k to more but smaller clusters as lncRNAs tend to be expressed in small subpopulations. (in this example, k=5). dimred_clustering is the dimensionality reduction (PCA here, but could be the corrected space after integrating samples)
         clust <- igraph::cluster_louvain(g)$membership
         print(table(clust))

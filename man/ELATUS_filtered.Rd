@@ -32,7 +32,7 @@ ELATUS_filtered(
 
 \item{dimred_clustering}{dimensionality reduction (For the example "PCA")}
 
-\item{k_neighbors}{the number of nearest neighbors used to construct the graph. Choose a smaller k to more but smaller clusters as lncRNAs tend to be expressed in small subpopulations. (in this example, k=5)}
+\item{k_neighbors}{the number of nearest neighbors used to construct the graph. Choose a smaller k to more but smaller clusters as lncRNAs tend to be expressed in small subpopulations. (NA when the object is already clustered)}
 
 \item{ratio_threshold}{Threshold to remove lncRNAs whose ratio of expression between Kallisto and CellRanger is smaller than this defined threshold (For the paper = 40)}
 

@@ -76,6 +76,7 @@ ELATUS_filtered <- function(organism, kallisto_sce, cellRanger_sce, gene_names,t
     if (nrow(exclusive_lncRNAs_CRISPRi)>0)
     {
         exclusive_lncRNAs_CRISPRi$category = "Exclusive_lncRNA_CRISPRi"
+        exclusive_biologically_relevant_lncRNAs$category = "Exclusive_lncRNA"
     }
     else
     {

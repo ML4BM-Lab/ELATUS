@@ -96,9 +96,9 @@ ELATUS <- function(kallisto_path, kallisto_name, cellRanger_path, organism, lowe
     candidate_lncRNAs_common$cell_type_SI <- candidate_lncRNAs_common$cell_type_SI <- colnames(counts_cell_specificity_index[rownames(candidate_lncRNAs_common),])[apply(counts_cell_specificity_index[rownames(candidate_lncRNAs_common),],1,which.max)]
 
     # Get the biologically relevant lncRNAs from these candidates (In the paper we used the following parameters: ratio_threshold = 40, CR_threshold = 10, SI_threshold = 0.15)
-    ratio_threshold = 40
-    CR_threshold = 10
-    SI_threshold = 0.15
+    #ratio_threshold = 40
+    #CR_threshold = 10
+    #SI_threshold = 0.15
     exclusive_lncRNAs_CRISPRi <- candidate_lncRNAs_exclusive[candidate_lncRNAs_exclusive$crispr_intersection == T,]
     exclusive_biologically_relevant_lncRNAs <- biologically_relevant_lncRNAs(candidate_lncRNAs_exclusive, ratio_threshold,CR_threshold,SI_threshold)
     candidate_lncRNAs_common$crispr_intersection = "NA"

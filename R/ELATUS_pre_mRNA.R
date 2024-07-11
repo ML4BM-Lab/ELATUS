@@ -16,7 +16,8 @@
 #' @param SI_threshold Threshold to remove lncRNAs whose SI is smaller than this defined threshold (For the paper = 0.15)
 #' @return A list with most biologically relevant lncRNAs
 
-ELATUS <- function(kallisto_path, kallisto_name, cellRanger_path, organism, lower_emptydrops, EmptyDrops_FDR_thres, cells_mito_threshold, cells_max_threshold, cells_min_genes_detected_threshold, threshold_minumun_gene_counts, threshold_cells_detected, dimred_clustering, k_neighbors, ratio_threshold, CR_threshold, SI_threshold)
+#' @export
+ELATUS_premRNA <- function(kallisto_path, kallisto_name, cellRanger_path,kallisto_multimappers_path,kallisto_multimappers_name,  organism, lower_emptydrops, EmptyDrops_FDR_thres, threshold_minumun_gene_counts, threshold_cells_detected, dimred_clustering, k_neighbors, ratio_threshold, CR_threshold, SI_threshold)
 {
     if (organism == "Human")
     {

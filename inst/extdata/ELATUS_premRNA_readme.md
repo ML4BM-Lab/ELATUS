@@ -2,7 +2,7 @@
 
 This workflow is designed to, through droplet-based snRNA-seq, not only retain highly-expressed lncRNAs robustly detected by Cell Ranger and Kallisto and by Cell Ranger and Kallisto with multimappers, but also uncover functionally relevant lncRNAs that are only detected by Kallisto and Kallisto with multimappers. 
 <p align="center">
-<img src='inst/extdata/ELATUS_premRNA.png' width="200">
+<img src='ELATUS_premRNA.png' width="200">
 </p>
 
 # Demo

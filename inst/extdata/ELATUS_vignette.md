@@ -19,18 +19,65 @@ Gm16152    Gm16152   1.4073071 ENSMUSG00000087131.8                  378.7060   
 
 ## ELATUS step-by-step pipeline
 Here, we detailed the results from the different steps in the ELATUS pipeline that are run internally using the previous demo dataset.
+
+### 0. Load gtf annotation
+```{r}
+if (organism == "Human")
+{
+    gencode_path <- system.file("extdata", "hg38_v37.rds", package = "ELATUS")
+} 
+if (organism == "Mouse")
+{
+    gencode_path <- system.file("extdata", "mm10_vM27.rds", package = "ELATUS")
+}
+crispr_data <- readRDS(system.file("extdata", "hits_info_Liu_science_2015_ensids.rds", package = "ELATUS"))
+gtf <- readRDS(gencode_path)
+gtf$gene_id <- gsub("_","-",gtf$gene_id)
+mitochondrial_ens_ids <- unique(gtf$gene_id[grep("^MT-",gtf$gene_name)])
+lncrna_ens_ids <- unique(c(gtf$gene_id[grep("lncRNA",gtf$gene_type)]))
+protein_coding_ens_ids <- unique(c(gtf$gene_id[gtf$gene_type=="protein_coding"]))
+lncrna_names <- unique(gtf$gene_name[gtf$gene_id %in% lncrna_ens_ids])
+protein_coding_names <-  unique(gtf$gene_name[gtf$gene_id %in% protein_coding_ens_ids])
+```
 ### 1. Load input data
 ELATUS first load raw count data using import_kallisto_sc and import_CellRanger_sc [functions](https://github.com/kikegoni/ELATUS/blob/main/R/import_count_matrices.R). A tutorial for generating the input data is generated is available [here](https://github.com/kikegoni/ELATUS/blob/main/demo_CellRanger_Kallisto.sh)
 ```{r}
+library(ELATUS)
 kallisto <- import_kallisto_sc(kallisto_path, kallisto_name)
 kallisto <- Seurat::as.SingleCellExperiment(kallisto)
 kallisto_sce <- qc_metrics(kallisto, mitochondrial_ens_ids)
 kallisto_sce
+class: SingleCellExperiment 
+dim: 55359 411514 
+metadata(0):
+assays(2): counts logcounts
+rownames(55359): ENSMUSG00000102693.2 ENSMUSG00000064842.3 ...
+  ENSMUSG00000064371.1 ENSMUSG00000064372.1
+rowData names(0):
+colnames(411514): AAACCCAAGAAACCAT AAACCCAAGAAATCCA ...
+  TTTGTTGTCTTCTGGC TTTGTTGTCTTGATTC
+colData names(10): orig.ident nCount_RNA ... subsets_Mito_percent total
+reducedDimNames(0):
+mainExpName: NULL
+altExpNames(0):
 
 cellRanger <- import_CellRanger_sc(cellRanger_path)
 cellRanger <- Seurat::as.SingleCellExperiment(cellRanger)
 cellRanger_sce <- qc_metrics(cellRanger, mitochondrial_ens_ids)
 cellRanger_sce
+class: SingleCellExperiment 
+dim: 55359 6794880 
+metadata(0):
+assays(2): counts logcounts
+rownames(55359): ENSMUSG00000102693.2 ENSMUSG00000064842.3 ...
+  ENSMUSG00000064371.1 ENSMUSG00000064372.1
+rowData names(0):
+colnames(6794880): AAACCCAAGAAACACT-1 AAACCCAAGAAACCAT-1 ...
+  TTTGTTGTCTTTGGCT-1 TTTGTTGTCTTTGTCG-1
+colData names(10): orig.ident nCount_RNA ... subsets_Mito_percent total
+reducedDimNames(0):
+mainExpName: NULL
+altExpNames(0):
 ```
 
 ### 2. Filtering and normalization
@@ -45,7 +92,7 @@ kallisto_filt_sce_ed_nodoubs <- kallisto_filt_sce_ed_nodoubs[,kallisto_filt_sce_
 cellRanger_filt_sce_ed_nodoubs <- remove_doublets(cellRanger_filt_sce_ed)
 cellRanger_filt_sce_ed_nodoubs <- cellRanger_filt_sce_ed_nodoubs[,cellRanger_filt_sce_ed_nodoubs$isDoublet == F]
 
-# Filtering (The following thresholds have been used. cells_mito_threshold=15, cells_max_threshold= 50000, cells_min_genes_detected_threshold = 500)cells_mito_threshold, cells_max_threshold, cells_min_genes_detected_threshold
+# Filtering (The following thresholds have been used. cells_mito_threshold=15, cells_max_threshold= 30000, cells_min_genes_detected_threshold = 500)cells_mito_threshold, cells_max_threshold, cells_min_genes_detected_threshold
 kallisto_filt_sce <- Filtering(kallisto_filt_sce_ed_nodoubs,  cells_mito_threshold=cells_mito_threshold, cells_max_threshold= cells_max_threshold, cells_min_genes_detected_threshold = cells_min_genes_detected_threshold)
 kallisto_filt_sce <- scuttle::logNormCounts(kallisto_filt_sce)
 cellRanger_filt_sce <- Filtering(cellRanger_filt_sce_ed_nodoubs,  cells_mito_threshold=cells_mito_threshold, cells_max_threshold= cells_max_threshold, cells_min_genes_detected_threshold = cells_min_genes_detected_threshold)
@@ -55,8 +102,6 @@ gene_name <- gtf$gene_name[match(rownames(kallisto_filt_sce),gtf$gene_id)]
 rownames(kallisto_filt_sce) <- scuttle::uniquifyFeatureNames(rownames(kallisto_filt_sce), gene_name)
 gene_name <- gtf$gene_name[match(rownames(cellRanger_filt_sce),gtf$gene_id)]
 rownames(cellRanger_filt_sce) <- scuttle::uniquifyFeatureNames(rownames(cellRanger_filt_sce), gene_name)
-kallisto_filt_sce
-cellRanger_filt_sce
 ```
 
 ### 3. Get highly-expressed lncRNAs
@@ -64,11 +109,25 @@ Highly-expressed lncRNAs robustly detected by Cell Ranger and Kallisto.
 ```{r}
 candidate_lncRNAs_common <- get_candidates(kallisto_filt_sce, cellRanger_filt_sce, threshold_minumun_gene_counts = threshold_minumun_gene_counts, threshold_cells_detected = threshold_cells_detected,lncrna_names = lncrna_names,gtf=gtf, exclusive = F)
 head(candidate_lncRNAs_common)
+                 candidates    ratio                  gene kallisto_total_expression cellRanger_total_expression
+Gm19938             Gm19938 1.009968  ENSMUSG00000102331.2                  628.3366                    622.1251
+Snhg6                 Snhg6 1.001789  ENSMUSG00000098234.8                 1171.4616                   1169.3681
+Gm16152             Gm16152 1.425209  ENSMUSG00000087131.8                  384.0344                    269.1598
+Gm29260             Gm29260 1.402025  ENSMUSG00000100832.2                  309.2453                    220.2837
+Pantr1               Pantr1 1.009082 ENSMUSG00000060424.15                 2719.1512                   2694.6687
+9130024F11Rik 9130024F11Rik 1.049407  ENSMUSG00000087022.5                 1357.4554                   1293.4981
 ```
 Highly-expressed lncRNAs exclusively detected by Kallisto
 ```{r}
 candidate_lncRNAs_exclusive <- get_candidates(kallisto_filt_sce, cellRanger_filt_sce , threshold_minumun_gene_counts = threshold_minumun_gene_counts, threshold_cells_detected = threshold_cells_detected,lncrna_names = lncrna_names,gtf=gtf)
 head(candidate_lncRNAs_exclusive)
+        candidates      ratio                 gene kallisto_total_expression cellRanger_total_expression
+Gm29325    Gm29325 140.725743 ENSMUSG00000099625.2                  358.5952                    1.555291
+Gm20342    Gm20342   1.671473 ENSMUSG00000101599.2                  285.0728                  170.150128
+Gm10558    Gm10558 111.338209 ENSMUSG00000073656.5                 1126.1808                    9.123935
+Gm28791    Gm28791   1.479581 ENSMUSG00000100394.2                  291.5206                  196.705045
+Gm37214    Gm37214  94.414609 ENSMUSG00000104022.2                  304.0521                    2.230984
+Gm38348    Gm38348   6.069723 ENSMUSG00000102357.2                  646.3037                  105.644681
 ```
 
 ### 4. Filter exclusively detected lncRNAs
@@ -79,7 +138,6 @@ set.seed(100100100)
 kallisto_filt_sce <- scater::runPCA(kallisto_filt_sce) 
 g <- scran::buildSNNGraph(kallisto_filt_sce, use.dimred = dimred_clustering, k = k_neighbors ) # k is the number of nearest neighbors used to construct the graph. Choose a smaller k to more but smaller clusters as lncRNAs tend to be expressed in small subpopulations. (in this example, k=5). dimred_clustering is the dimensionality reduction (PCA here, but could be the corrected space after integrating samples)
 clust <- igraph::cluster_louvain(g)$membership
-print(table(clust))
 kallisto_filt_sce$louvain_clusters <- factor(clust)
 
 # Calculate the Specificity Index for each gene
@@ -97,6 +155,9 @@ candidate_lncRNAs_common$cell_type_SI <- candidate_lncRNAs_common$cell_type_SI <
 exclusive_lncRNAs_CRISPRi <- candidate_lncRNAs_exclusive[candidate_lncRNAs_exclusive$crispr_intersection == T,]
 exclusive_biologically_relevant_lncRNAs <- biologically_relevant_lncRNAs(candidate_lncRNAs_exclusive, ratio_threshold,CR_threshold,SI_threshold)
 head(exclusive_biologically_relevant_lncRNAs)
+        candidates    ratio                 gene kallisto_total_expression cellRanger_total_expression        SI cell_type_SI crispr_intersection
+Gm6209      Gm6209 225.1977 ENSMUSG00000102715.2                  224.1977                    0.000000 0.2439452            6               FALSE
+Gm15637    Gm15637  98.6993 ENSMUSG00000087386.2                  296.3716                    2.012905 0.1911893           11               FALSE
 ```
 
 ### 5. Genate the collection of all functional lncRNAs in scRNA-seq
@@ -112,6 +173,13 @@ candidate_lncRNAs_common$category = "Common_lncRNA"
 
 biologically_relevant_lncRNAs <- rbind(exclusive_biologically_relevant_lncRNAs, candidate_lncRNAs_common,exclusive_lncRNAs_CRISPRi)
 head(biologically_relevant_lncRNAs)
+        candidates      ratio                 gene kallisto_total_expression cellRanger_total_expression         SI cell_type_SI crispr_intersection         category
+Gm6209      Gm6209 225.197737 ENSMUSG00000102715.2                  224.1977                    0.000000 0.24394517            6               FALSE Exclusive_lncRNA
+Gm15637    Gm15637  98.699300 ENSMUSG00000087386.2                  296.3716                    2.012905 0.19118928           11               FALSE Exclusive_lncRNA
+Gm19938    Gm19938   1.009968 ENSMUSG00000102331.2                  628.3366                  622.125119 0.13455292           11                  NA    Common_lncRNA
+Snhg6        Snhg6   1.001789 ENSMUSG00000098234.8                 1171.4616                 1169.368094 0.04456385            6                  NA    Common_lncRNA
+Gm16152    Gm16152   1.425209 ENSMUSG00000087131.8                  384.0344                  269.159842 0.14192657            3                  NA    Common_lncRNA
+Gm29260    Gm29260   1.402025 ENSMUSG00000100832.2                  309.2453                  220.283683 0.40857219           12                  NA    Common_lncRNA
 ```
 
 

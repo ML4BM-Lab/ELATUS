@@ -1,12 +1,12 @@
 # Guidelines to use Cell Ranger count and Kallisto preprocessing pipelines for generating the raw count matrices
 # mm10 (Download annotation and fasta files from GENCODE)
-mm10_gencode_genome_fasta
-mm10_gencode_gtf
-mm10_gencode_transcriptome_fasta
+mm39_gencode_genome_fasta
+mm39_gencode_gtf
+mm39_gencode_transcriptome_fasta
 
 # 1. Cell Ranger (v.3.0.1)
 # 1.1. Index generation: 
-cellranger mkref --genome=$CellRanger_reference --fasta=$mm10_gencode_genome_fasta  --genes=$mm10_gencode_gtf
+cellranger mkref --genome=$CellRanger_reference --fasta=$mm39_gencode_genome_fasta  --genes=$mm39_gencode_gtf
 # 1.2. Generate raw count matrix
 cellranger count --id=$id --transcriptome=$CellRanger_reference  --fastqs=$FASTQ_DIR --sample=$sample 
 

@@ -5,6 +5,8 @@
 #' @export
 crispr_info <- function(crispr_data, candidates_lncRNAs)
 {
-    candidates_lncRNAs$crispr_intersection <- gsub("\\..*","",candidates_lncRNAs$gene) %in% gsub("\\..*","",crispr_data$gene_id)
+    v <- gsub("\\..*","",candidates_lncRNAs$gene)
+    y <- gsub("\\..*","",crispr_data$gene_id)
+    candidates_lncRNAs$crispr_intersection <- sapply(v, function(x) any(grepl(x, y)))
     return(candidates_lncRNAs)
 }

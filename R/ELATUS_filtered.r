@@ -24,7 +24,11 @@ ELATUS_filtered <- function(organism, kallisto_sce, cellRanger_sce, gene_names,t
     {
         gencode_path <- system.file("extdata", "mm10_vM27.rds", package = "ELATUS")
     }
-    crispr_data <- readRDS(system.file("extdata", "hits_info_Liu_science_2015_ensids.rds", package = "ELATUS"))
+    crispr_data1 <- readRDS(system.file("extdata", "hits_info_Liu_science_2015_ensids.rds", package = "ELATUS"))
+    crispr_data2 <- readRDS(system.file("extdata", "essential_lncRNAs_hits_info_Wei_Santana_cell_2024.rds", package = "ELATUS"))
+    crispr_data <- as.data.frame(c(crispr_data1$gene_id, crispr_data2$gene_id))
+    colnames(crispr_data) <- "gene_id"
+
     gtf <- readRDS(gencode_path)
     gtf$gene_id <- gsub("_","-",gtf$gene_id)
     lncrna_ens_ids <- unique(c(gtf$gene_id[grep("lncRNA",gtf$gene_type)]))

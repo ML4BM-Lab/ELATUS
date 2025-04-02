@@ -16,7 +16,7 @@
 #' @return A list with most biologically relevant lncRNAs
 
 #' @export 
-ELATUS_filtered <- function(organism, kallisto_sce, cellRanger_sce, gene_names,threshold_minumun_gene_counts, threshold_cells_detected, dimred_clustering, k_neighbors, ratio_threshold, CR_threshold, SI_threshold)
+ELATUS_filtered <- function(organism, kallisto_sce, cellRanger_sce, gene_names,threshold_minumun_gene_counts, threshold_cells_detected, cell_types_defined, cell_type_class, dimred_clustering, k_neighbors, ratio_threshold, CR_threshold, SI_threshold)
 {
     if (organism == "Human")
     {
